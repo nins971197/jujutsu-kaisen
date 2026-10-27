@@ -2,7 +2,7 @@
 
 > 一个关于《咒术回战》的非官方粉丝站点。用文字、排版与原创抽象图形，记录这个关于诅咒、选择与告别的故事。
 
-**在线地址（部署后）**：<https://nins971197.github.io/jujutsu-kaisen/>
+**在线地址**：<https://nins971197.github.io/jujutsu-kaisen/> — 已发布，GitHub Pages 构建完成。
 
 ---
 
@@ -101,6 +101,7 @@ git push -u origin main
 ├── characters.html
 ├── watch.html
 ├── 404.html
+├── favicon.ico
 ├── assets/
 │   ├── css/style.css
 │   ├── js/site.js
