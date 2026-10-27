@@ -45,7 +45,7 @@ async function api(pathname, method = 'GET', body) {
 }
 
 function run(args, opts = {}) {
-  const res = spawnSync('git', args, {
+  const res = spawnSync('git', ['-c', 'http.sslBackend=openssl', ...args], {
     cwd: siteDir,
     stdio: 'inherit',
     env: { ...process.env, GIT_SSL_BACKEND: 'openssl' },
@@ -108,7 +108,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   else run(['remote', 'add', 'origin', authRemote]);
   try {
     let fastForward = true;
-    const fetched = spawnSync('git', ['fetch', 'origin', 'main'], { cwd: siteDir, stdio: 'ignore', env: { ...process.env, GIT_SSL_BACKEND: 'openssl' } });
+    const fetched = spawnSync('git', ['-c', 'http.sslBackend=openssl', 'fetch', 'origin', 'main'], { cwd: siteDir, stdio: 'ignore', env: { ...process.env, GIT_SSL_BACKEND: 'openssl' } });
     if (fetched.status === 0) {
       fastForward = spawnSync('git', ['merge-base', '--is-ancestor', 'origin/main', 'HEAD'], { cwd: siteDir }).status === 0;
     }
