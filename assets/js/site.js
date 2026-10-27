@@ -238,6 +238,7 @@
         visual.style.setProperty('--m2', d.c2 || '#120812');
       }
       if (kanjiEl) kanjiEl.textContent = d.kanji || '';
+      if (panel) panel.scrollTop = 0;
       modal.classList.add('is-open');
       modal.setAttribute('aria-hidden', 'false');
       body.style.overflow = 'hidden';
