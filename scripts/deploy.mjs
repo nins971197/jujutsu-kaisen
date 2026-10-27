@@ -106,8 +106,21 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const remotes = spawnSync('git', ['remote'], { cwd: siteDir, encoding: 'utf8' }).stdout.split(/\r?\n/).filter(Boolean);
   if (remotes.includes('origin')) run(['remote', 'set-url', 'origin', authRemote]);
   else run(['remote', 'add', 'origin', authRemote]);
-  run(['push', '-u', 'origin', 'main', '--force']);
-  run(['remote', 'set-url', 'origin', cleanRemote]);
+  try {
+    let fastForward = true;
+    const fetched = spawnSync('git', ['fetch', 'origin', 'main'], { cwd: siteDir, stdio: 'ignore', env: { ...process.env, GIT_SSL_BACKEND: 'openssl' } });
+    if (fetched.status === 0) {
+      fastForward = spawnSync('git', ['merge-base', '--is-ancestor', 'origin/main', 'HEAD'], { cwd: siteDir }).status === 0;
+    }
+    if (!fastForward && process.env.ALLOW_OVERWRITE !== '1') {
+      console.error('\n远端仓库已有无关提交，为避免覆盖已停止。');
+      console.error('如确认要覆盖，请设置 ALLOW_OVERWRITE=1 后重试。');
+      throw new Error('远端仓库已有无关提交，已停止（未覆盖）');
+    }
+    run(['push', '-u', 'origin', 'main', ...(fastForward ? [] : ['--force'])]);
+  } finally {
+    try { run(['remote', 'set-url', 'origin', cleanRemote]); } catch { /* noop */ }
+  }
 
   console.log('\n[4/4] 启用 GitHub Pages…');
   let pages = await api(`/repos/${owner}/${repoName}/pages`, 'POST', { source: { branch: 'main', path: '/' } });

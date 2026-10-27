@@ -1036,7 +1036,7 @@ main { position: relative; z-index: 2; }
   font-family: var(--font-mono);
   font-size: 9px;
   letter-spacing: .08em;
-  color: rgba(150, 142, 159, .75);
+  color: rgba(166, 158, 176, .92);
   line-height: 1.7;
 }
 .foot__bottom a { color: var(--bone-dim); }
@@ -1121,6 +1121,7 @@ main { position: relative; z-index: 2; }
 .filter-group { display: flex; flex-wrap: wrap; gap: 8px; }
 .filter {
   padding: 8px 16px;
+  min-height: 42px;
   border: 1px solid var(--line);
   font-family: var(--font-mono);
   font-size: 10px;
@@ -1227,7 +1228,7 @@ main { position: relative; z-index: 2; }
   position: absolute;
   top: 14px; right: 14px;
   z-index: 5;
-  width: 38px; height: 38px;
+  width: 42px; height: 42px;
   border: 1px solid var(--line-strong);
   display: grid;
   place-items: center;
